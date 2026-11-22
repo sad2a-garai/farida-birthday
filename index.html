@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>For Farida, January 3</title>
+<style>
+  :root {
+    --plum: #2e1a33;
+    --rose: #e8a5a0;
+    --peach: #f6d7b8;
+    --cream: #fdf6ee;
+    --gold: #d9a85b;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --plum: #f6e9e4;
+      --rose: #e8a5a0;
+      --peach: #3a2440;
+      --cream: #1d1222;
+      --gold: #e9c27e;
+      color-scheme: dark;
+    }
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body {
+    background: radial-gradient(ellipse at 50% 0%, var(--peach) 0%, var(--cream) 70%);
+    color: var(--plum);
+    font-family: Georgia, "Times New Roman", serif;
+    overflow-x: hidden;
+    padding: env(safe-area-inset-top, 0px) env(safe-area-inset-right, 0px) env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px);
+    min-height: 100%;
+  }
+
+  /* Password gate */
+  #gate {
+    position: fixed; inset: 0;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 18px; padding: 24px; text-align: center; z-index: 5;
+    background: var(--cream);
+    transition: opacity .8s ease, visibility .8s;
+  }
+  #gate.hidden { opacity: 0; visibility: hidden; }
+  #gate h1 { font-size: clamp(1.6rem, 6vw, 2.4rem); font-weight: normal; font-style: italic; }
+  #gate p { font-size: 1rem; opacity: .75; }
+  #gate form { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+  #gate input {
+    font: inherit; font-size: 1.1rem; padding: 12px 16px; width: min(260px, 70vw);
+    border: 1px solid var(--plum); border-radius: 999px; background: transparent; color: var(--plum);
+    text-align: center; letter-spacing: .1em;
+  }
+  #gate input:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+  #gate button {
+    font: inherit; padding: 12px 22px; border-radius: 999px; border: none;
+    background: var(--plum); color: var(--cream); cursor: pointer;
+  }
+  #gate button:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+  #gate .error { color: #b5472f; min-height: 1.2em; font-size: .95rem; }
+  .shake { animation: shake .4s; }
+  @keyframes shake {
+    0%,100% { transform: translateX(0); }
+    20% { transform: translateX(-8px); }
+    40% { transform: translateX(8px); }
+    60% { transform: translateX(-6px); }
+    80% { transform: translateX(6px); }
+  }
+
+  /* Main content */
+  main {
+    min-height: 100%;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 48px 20px; text-align: center; gap: 22px;
+  }
+  .candles { display: flex; gap: 18px; align-items: flex-end; height: 90px; }
+  .candle {
+    width: 14px; height: 60px; border-radius: 4px; background: var(--rose); position: relative;
+    transform-origin: bottom center;
+    animation: rise .8s ease-out both;
+  }
+  .candle:nth-child(2) { animation-delay: .15s; }
+  .candle:nth-child(3) { animation-delay: .3s; }
+  .candle:nth-child(4) { animation-delay: .45s; }
+  .candle:nth-child(5) { animation-delay: .6s; }
+  .flame {
+    position: absolute; top: -26px; left: 50%; width: 12px; height: 20px; margin-left: -6px;
+    background: radial-gradient(circle at 50% 70%, #fff3b0 0%, var(--gold) 55%, #e4572e 100%);
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    animation: flicker 1.4s ease-in-out infinite alternate;
+    transform-origin: bottom center;
+  }
+  @keyframes rise { from { transform: translateY(40px); opacity: 0; } to { transform: none; opacity: 1; } }
+  @keyframes flicker {
+    0% { transform: scale(1) rotate(-2deg); }
+    100% { transform: scale(.92, 1.08) rotate(2deg); }
+  }
+
+  h2 {
+    font-size: clamp(2.2rem, 9vw, 4.2rem);
+    font-weight: normal; line-height: 1.05; letter-spacing: -.01em;
+    opacity: 0; animation: fadeUp 1s ease .9s forwards;
+  }
+  h2 em { color: #b5472f; }
+  .date {
+    font-size: 1.05rem; letter-spacing: .25em; text-transform: none; font-style: italic;
+    opacity: 0; animation: fadeUp 1s ease 1.3s forwards;
+  }
+  .letter {
+    max-width: 560px; font-size: 1.12rem; line-height: 1.85; text-align: left;
+    background: color-mix(in srgb, var(--cream) 88%, #fff);
+    padding: 28px 26px; border-radius: 6px;
+    box-shadow: 0 14px 40px rgba(46, 26, 51, .12);
+    opacity: 0; transform: translateY(20px);
+    animation: fadeUp 1.2s ease 1.8s forwards;
+  }
+  .letter p + p { margin-top: 1em; }
+  .sign { margin-top: 1.4em; font-style: italic; }
+  .arabic { direction: rtl; text-align: center; font-size: 1.3rem; margin-top: 1.2em; }
+  @keyframes fadeUp { to { opacity: 1; transform: none; } }
+
+  #confetti { position: fixed; inset: 0; pointer-events: none; z-index: 4; overflow: hidden; }
+  .bit {
+    position: absolute; top: -20px; width: 9px; height: 14px; border-radius: 2px;
+    animation: fall linear forwards;
+  }
+  @keyframes fall {
+    to { transform: translate(var(--drift), 110vh) rotate(720deg); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: .01ms !important; animation-delay: 0ms !important; animation-iteration-count: 1 !important; }
+    #confetti { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div id="gate" role="dialog" aria-modal="true" aria-labelledby="gate-title">
+  <h1 id="gate-title">Something is waiting for you, Farida</h1>
+  <p>Enter the password to open your surprise.</p>
+  <form id="gate-form" autocomplete="off">
+    <input id="pw" type="password" aria-label="Password" placeholder="password" required>
+    <button type="submit">Open</button>
+  </form>
+  <div class="error" id="error" aria-live="polite"></div>
+</div>
+
+<main id="content" aria-hidden="true">
+  <div class="candles" aria-hidden="true">
+    <div class="candle"><div class="flame"></div></div>
+    <div class="candle"><div class="flame"></div></div>
+    <div class="candle"><div class="flame"></div></div>
+    <div class="candle"><div class="flame"></div></div>
+    <div class="candle"><div class="flame"></div></div>
+  </div>
+
+  <h2>Happy Birthday, <em>Farida</em></h2>
+  <div class="date">January 3</div>
+
+  <article class="letter">
+    <p>Dear Farida,</p>
+    <p>I wanted to make something just for you today, because you deserve a day that feels as warm and bright as you make everyone else feel.</p>
+    <p>Thank you for your kindness, your laughter, and the way you show up for the people you love. I am lucky to have you in my life, and I hope this year brings you everything you have been quietly hoping for.</p>
+    <p>May your new year be full of good moments, good food, and people who make you smile.</p>
+    <p class="sign">With love,<br>Your friend</p>
+  </article>
+
+  <p class="arabic">كل عام وأنتِ بخير يا فريدة</p>
+</main>
+
+<div id="confetti" aria-hidden="true"></div>
+
+<script>
+  (function () {
+    var PASSWORD = "dida";
+    var form = document.getElementById("gate-form");
+    var input = document.getElementById("pw");
+    var gate = document.getElementById("gate");
+    var error = document.getElementById("error");
+    var content = document.getElementById("content");
+    var confettiBox = document.getElementById("confetti");
+    var colors = ["#e8a5a0", "#d9a85b", "#f6d7b8", "#2e1a33", "#b5472f", "#9bb7a3"];
+
+    function burst() {
+      var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (reduce) return;
+      for (var i = 0; i < 90; i++) {
+        var bit = document.createElement("span");
+        bit.className = "bit";
+        bit.style.left = Math.random() * 100 + "vw";
+        bit.style.background = colors[i % colors.length];
+        bit.style.setProperty("--drift", (Math.random() * 200 - 100) + "px");
+        bit.style.animationDuration = (2.5 + Math.random() * 2.5) + "s";
+        bit.style.animationDelay = (Math.random() * 0.6) + "s";
+        confettiBox.appendChild(bit);
+      }
+      setTimeout(function () { confettiBox.innerHTML = ""; }, 6000);
+    }
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      if (input.value.trim().toLowerCase() === PASSWORD) {
+        error.textContent = "";
+        gate.classList.add("hidden");
+        content.setAttribute("aria-hidden", "false");
+        burst();
+      } else {
+        error.textContent = "Not quite. Try again.";
+        input.value = "";
+        input.classList.remove("shake");
+        void input.offsetWidth;
+        input.classList.add("shake");
+        input.focus();
+      }
+    });
+
+    input.focus();
+  })();
+</script>
+</body>
+</html>
